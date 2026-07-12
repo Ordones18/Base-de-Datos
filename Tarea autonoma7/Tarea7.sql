@@ -1,29 +1,29 @@
 -- PASO 1: MODELO CLAVE-VALOR
--- Colecci髇: carrito
+-- Colecci贸n: carrito
 -- Simula un almacenamiento de tipo clave-valor para carritos de compra
 
--- Inserci髇 de datos clave-valor
+-- Inserci贸n de datos clave-valor
 db.carrito.insertMany([
   { _id: "cliente_uio_101", items: [{ producto: "Licuadora de Cacao Industrial", cantidad: 1 }, { producto: "Cacao 100% Barra", cantidad: 5 }] },
   { _id: "cliente_rbb_202", items: [{ producto: "Molino de Cacao Artesanal", cantidad: 2 }] }
 ]);
 
--- Consulta por clave espec韋ica
+-- Consulta por clave espec铆fica
 db.carrito.findOne({ _id: "cliente_uio_101" });
 
--- Eliminaci髇 por clave
+-- Eliminaci贸n por clave
 db.carrito.deleteOne({ _id: "cliente_uio_101" });
 
 -- PASO 2: MODELO DOCUMENTAL
--- Colecci髇: pedidos
--- Almacena transacciones jer醨quicas con subdocumentos embebidos
+-- Colecci贸n: pedidos
+-- Almacena transacciones jer谩rquicas con subdocumentos embebidos
 
--- Inserci髇 de pedidos con estructura jer醨quica
+-- Inserci贸n de pedidos con estructura jer谩rquica
 db.pedidos.insertMany([
   {
     nro_pedido: "PED-2026-001",
     fecha: ISODate("2026-07-01T20:00:00Z"),
-    cliente: { id_cliente: 1, nombre: "Corporaci髇 Oro Cacao", ruc: "1792345678001" },
+    cliente: { id_cliente: 1, nombre: "Corporaci贸n Oro Cacao", ruc: "1792345678001" },
     envio: { direccion: "Av. Amazonas y Patria", ciudad: "Quito", provincia: "Pichincha" },
     items: [
       { producto: "Refinadora de Cacao Industrial", precio: 2450.00, cantidad: 1 },
@@ -43,9 +43,9 @@ db.pedidos.insertMany([
   }
 ]);
 
--- Consulta de agregaci髇: filtrado y c醠culo de totales por cliente
+-- Consulta de agregaci贸n: filtrado y c谩lculo de totales por cliente
 db.pedidos.aggregate([
-  { $match: { "cliente.nombre": "Corporaci髇 Oro Cacao" } },
+  { $match: { "cliente.nombre": "Corporaci贸n Oro Cacao" } },
   { $unwind: "$items" },
   { 
     $group: { 
@@ -57,23 +57,23 @@ db.pedidos.aggregate([
 ]);
 
 -- PASO 3: MODELO DE GRAFOS - NODOS
--- Colecci髇: red_universitaria
--- Almacena los v閞tices o entidades de la red universitaria
+-- Colecci贸n: red_universitaria
+-- Almacena los v茅rtices o entidades de la red universitaria
 
--- Inserci髇 de nodos (entidades)
+-- Inserci贸n de nodos (entidades)
 db.red_universitaria.insertMany([
-  { _id: "docente_jmoyano", tipo: "Docente", nombre: "Ing. Johana Moyano", catedra: "Administraci髇 de Bases de Datos" },
-  { _id: "estudiante_lordoniez", tipo: "Estudiante", nombre: "Luis Ordo馿z", semestre: "Cuarto" },
-  { _id: "estudiante_aperez", tipo: "Estudiante", nombre: "Ana P閞ez", semestre: "Cuarto" },
+  { _id: "docente_jmoyano", tipo: "Docente", nombre: "Ing. Johana Moyano", catedra: "Administraci贸n de Bases de Datos" },
+  { _id: "estudiante_lordoniez", tipo: "Estudiante", nombre: "Luis Ordo帽ez", semestre: "Cuarto" },
+  { _id: "estudiante_aperez", tipo: "Estudiante", nombre: "Ana P茅rez", semestre: "Cuarto" },
   { _id: "grupo_A", tipo: "Clases", nombre: "Grupo paralelo A" }
 ]);
 
 
 -- PASO 4: MODELO DE GRAFOS - ARISTAS
--- Colecci髇: conexiones_red
+-- Colecci贸n: conexiones_red
 -- Almacena las relaciones dirigidas entre nodos
 
--- Inserci髇 de aristas (relaciones)
+-- Inserci贸n de aristas (relaciones)
 db.conexiones_red.insertMany([
   { desde: "docente_jmoyano", hacia: "estudiante_lordoniez", relacion: "DictaMateria", detalles: "Periodo 2026-1S" },
   { desde: "docente_jmoyano", hacia: "grupo_A", relacion: "Lidera", rol: "Director Principal" },
@@ -82,7 +82,7 @@ db.conexiones_red.insertMany([
 ]);
 
 -- PASO 5: CONSULTA DE GRAFOS - CONEXIONES DIRECTAS
--- Identifica relaciones desde un nodo ra韟 con enriquecimiento de datos
+-- Identifica relaciones desde un nodo ra铆z con enriquecimiento de datos
 
 -- Consulta de conexiones desde el nodo docente
 db.conexiones_red.aggregate([
@@ -108,7 +108,7 @@ db.conexiones_red.aggregate([
 ]);
 
 -- PASO 6: CONSULTA DE GRAFOS - RED COMPLETA
--- Visualiza todas las relaciones con informaci髇 de origen y destino
+-- Visualiza todas las relaciones con informaci贸n de origen y destino
 
 -- Consulta completa de la red universitaria
 db.conexiones_red.aggregate([
@@ -143,14 +143,14 @@ db.conexiones_red.aggregate([
 ]);
 
 -- PASO 7: MODELO DE COLUMNAS
--- Colecci髇: ventas_columnas
+-- Colecci贸n: ventas_columnas
 -- Simula almacenamiento orientado a familias de columnas
 
--- Inserci髇 de registros con familias de columnas
+-- Inserci贸n de registros con familias de columnas
 db.ventas_columnas.insertMany([
   {
     _id: ObjectId(),
-    familia_cliente: { id: 1, razon_social: "Corporaci髇 Oro Cacao", region: "Sierra" },
+    familia_cliente: { id: 1, razon_social: "Corporaci贸n Oro Cacao", region: "Sierra" },
     familia_producto: { sku: "PROD-001", descripcion: "Refinadora de Cacao Industrial", categoria: "Maquinaria" },
     familia_transaccion: { factura: "F-001", cantidad: 2, ingresos_totales: 4900.00, fecha: ISODate("2026-06-27") }
   },
@@ -162,11 +162,122 @@ db.ventas_columnas.insertMany([
   }
 ]);
 
--- PASO 8: CONSULTA DE COLUMNAS ESPEC虵ICAS
--- Lectura selectiva de columnas con filtro por categor韆
+-- PASO 8: CONSULTA DE COLUMNAS ESPEC脥FICAS
+-- Lectura selectiva de columnas con filtro por categor铆a
 
--- Consulta anal韙ica: ingresos por producto de categor韆 Maquinaria
+-- Consulta anal铆tica: ingresos por producto de categor铆a Maquinaria
 db.ventas_columnas.find(
   { "familia_producto.categoria": "Maquinaria" },
   { _id: 0, "familia_producto.descripcion": 1, "familia_transaccion.ingresos_totales": 1 }
 );
+
+-- BLOCK CHAIN INNOVACI脫N
+-- PASO 1 
+
+db.cadena_bloques_cacao.drop();
+
+db.cadena_bloques_cacao.insertMany([
+  {
+    _id: "B001",
+    hash_anterior: "0".repeat(64),
+    hash_actual: "abc123",
+    timestamp: ISODate("2026-07-12T08:00:00Z"),
+    transaccion: {
+      lote: "CACAO-001",
+      etapa: "Cosecha",
+      estado: "Completado"
+    },
+    firmas: ["Agricultura"]
+  },
+  {
+    _id: "B002",
+    hash_anterior: "abc123",
+    hash_actual: "def456",
+    timestamp: ISODate("2026-07-12T10:00:00Z"),
+    transaccion: {
+      lote: "CACAO-001",
+      etapa: "Procesamiento",
+      estado: "En curso"
+    },
+    firmas: ["Control Calidad"]
+  },
+  {
+    _id: "B003",
+    hash_anterior: "def456",
+    hash_actual: "ghi789",
+    timestamp: ISODate("2026-07-12T14:00:00Z"),
+    transaccion: {
+      lote: "CACAO-002",
+      etapa: "Empaque",
+      estado: "Completado"
+    },
+    firmas: ["Control Calidad", "Logistica"]
+  }
+]);
+
+-- PASO 2 
+function verificarCadena() {
+  var bloques = db.cadena_bloques_cacao.find().sort({ timestamp: 1 }).toArray();
+  var resultado = [];
+  
+  for (var i = 0; i < bloques.length; i++) {
+    var valido = true;
+    if (i > 0) {
+      var anterior = bloques[i - 1];
+      if (bloques[i].hash_anterior !== anterior.hash_actual) {
+        valido = false;
+      }
+    }
+    resultado.push({
+      bloque: bloques[i]._id,
+      lote: bloques[i].transaccion.lote,
+      integridad: valido ? "OK" : "ERROR"
+    });
+  }
+  return resultado;
+}
+
+verificarCadena();
+
+-- PASO 3
+function rastrearLote(lote) {
+  return db.cadena_bloques_cacao.aggregate([
+    { $match: { "transaccion.lote": lote } },
+    { $sort: { timestamp: 1 } },
+    {
+      $project: {
+        _id: 0,
+        bloque: "$_id",
+        etapa: "$transaccion.etapa",
+        estado: "$transaccion.estado",
+        fecha: "$timestamp"
+      }
+    }
+  ]).toArray();
+}
+
+rastrearLote("CACAO-001");
+
+--PASO 4
+
+function nuevoBloque(lote, etapa, estado) {
+  var ultimo = db.cadena_bloques_cacao.find().sort({ timestamp: -1 }).limit(1).next();
+  var id = "B00" + (db.cadena_bloques_cacao.count() + 1);
+  
+  db.cadena_bloques_cacao.insertOne({
+    _id: id,
+    hash_anterior: ultimo.hash_actual,
+    hash_actual: "hash_" + Date.now(),
+    timestamp: new Date(),
+    transaccion: {
+      lote: lote,
+      etapa: etapa,
+      estado: estado
+    },
+    firmas: []
+  });
+  
+  return db.cadena_bloques_cacao.findOne({ _id: id });
+}
+
+
